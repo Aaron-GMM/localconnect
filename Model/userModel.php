@@ -4,7 +4,9 @@
 class userModel{
     private $username;
     private $email;
-    private $localidade = array(); 
+    private $cidade;
+    private $estado;
+ 
     private $password;
 
  
@@ -16,10 +18,12 @@ class userModel{
         return $this->email;
     }
 
-    public function getLocalidade() {
-        return $this->localidade;
+    public function getcidade() {
+        return $this->cidade;
     }
-
+    public function getestado() {
+        return $this->estado;
+        }
     public function getPassword() {
         return $this->password;
     }
@@ -32,12 +36,11 @@ class userModel{
         $this->email = $email;
     }
 
-    public function setLocalidade($localidade) {
-        if (is_array($localidade) && array_key_exists('city', $localidade) && array_key_exists('state', $localidade)) {
-            $this->localidade = $localidade;
-        } else {
-            die("Formato inválido para localidade.");
-        }
+    public function setcidade($cidade) {
+        $this->cidade = $cidade;
+    }
+    public function setestado($estado) {
+        $this->estado = $estado;
     }
     public function setPassword($password) {
         $this->password = $password;
