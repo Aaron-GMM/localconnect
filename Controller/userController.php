@@ -31,8 +31,7 @@ class UserController
             empty($data['estado']) &&
             empty($data['senha'])
         ) {
-        
-
+        echo"dados vazios";
             // dados vazio
         } else {
         //continuação da verificação
