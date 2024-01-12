@@ -47,6 +47,5 @@ class userModel{
     }
 }
 
-//$user = new UserClass("JohnDoe", "john.doe@example.com", ["city" => "New York", "state" => "NY"], "secretpassword");
 
 ?>
