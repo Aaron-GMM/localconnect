@@ -2,7 +2,7 @@
 namespace controller;
 
 $data = array(
-    "name" => filter_input(INPUT_POST, 'name' ),
+    "name" => filter_input(INPUT_POST, 'name'),
     "email" => filter_input(INPUT_POST, 'email'),
     "cidade" => filter_input(INPUT_POST, 'cidade'),
     "estado" => filter_input(INPUT_POST, 'estado'),
@@ -21,7 +21,7 @@ if (
 }
 class UserController
 {
-    
+
     public function register($data)
     {
         if (
@@ -31,17 +31,40 @@ class UserController
             empty($data['estado']) &&
             empty($data['senha'])
         ) {
-        echo"dados vazios";
-            // dados vazio
+            echo "
+        <script>
+            window.alert('dados do Formulario vazio')
+            window.location.href='../Templates/register.html'
+        </script>";
         } else {
-        //continuação da verificação
+             $obj = new UserController();
+             $res = $obj->validateName($data['name']);
+             echo $res;
         }
     }
 
-    private function validateName($name)
+    private function validateName($data)
     {
-        //adicionar logica de validação
-        return $name;
+       
+        $nome = $data;
+        if (!preg_match("/^[a-zA-Z ]+$/", $nome)) {
+           $respom = "<script>
+                window.alert('O nome deve conter apenas letras e espaços.')
+                window.location.href='../Templates/register.html'
+                </script>
+           ";
+
+           return $respom;
+        }
+        if (strlen($nome) < 2 || strlen($nome) > 50) {
+            echo "  
+            <script>
+            window.alert('O nome deve ter entre 2 e 50 caracteres.')
+            window.location.href='../Templates/register.html'
+            </script>
+            ";
+        }
+        return $nome;
     }
 
     private function validateEmail($email)
