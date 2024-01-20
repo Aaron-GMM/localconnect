@@ -1,6 +1,4 @@
 <?php
- namespace Model;
-
 class userModel{
     private $username;
     private $email;
@@ -47,5 +45,3 @@ class userModel{
     }
 }
 
-
-?>
