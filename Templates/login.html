@@ -20,7 +20,7 @@
         <div>
           <h1>Já Tem uma Conta? <span>acesse! </span></h1>
         </div>
-        <form action="">
+        <form method="post" action="../src/Controller/userController.php" action="">
           <div class="formulario">
             <div>
               <label>Email:</label>
@@ -30,7 +30,7 @@
               <label>Senha:</label>
               <input type="password" name="senha">
             </div>
-
+            <input style="display: none;" type="radio" value=2 name="formulario" checked >
             <div>
               <input class="button" type="submit" value="ENVIAR">
             </div>

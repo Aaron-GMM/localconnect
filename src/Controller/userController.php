@@ -1,8 +1,8 @@
 <?php
 // use Aaron\Composer\Dao\UserDao;
 // use Aaron\Composer\Model\userModel;
-require_once 'C:\xampp\htdocs\CRUD\src\Model\userModel.php';
-require_once 'C:\xampp\htdocs\CRUD\src\Dao\userDao.php';
+require_once 'C:\xampp\htdocs\localconnect\src\Model\userModel.php';
+require_once 'C:\xampp\htdocs\localconnect\src\Dao\userDAO.php';
 
 
 
@@ -48,31 +48,31 @@ class UserController
             if ($nameValidation !== true) {
                 $errorMessages[] = $nameValidation;
             }
-    
+
             // Validação do email
             $emailValidation = $this->validateEmail($data['email']);
             if ($emailValidation !== true) {
                 $errorMessages[] = $emailValidation;
             }
-    
+
             // Validação da cidade
             $cidadeValidation = $this->validateCidade($data['cidade']);
             if ($cidadeValidation !== true) {
                 $errorMessages[] = $cidadeValidation;
             }
-    
+
             // Validação do estado
             $estadoValidation = $this->validateEstado($data['estado']);
             if ($estadoValidation !== true) {
                 $errorMessages[] = $estadoValidation;
             }
-    
+
             // Validação da senha
             $senhaValidation = $this->validateSenha($data['senha']);
             if ($senhaValidation !== true) {
                 $errorMessages[] = $senhaValidation;
             }
-    
+
             // Se houver mensagens de erro, imprima-as
             if (!empty($errorMessages)) {
                 foreach ($errorMessages as $errorMessage) {
@@ -80,7 +80,7 @@ class UserController
                 }
                 return; // Encerre o método se houver erros
             }
-    
+
             // Se não houver erros, prossiga com o registro
             $userModel = new userModel();
             $userModel->setUsername($data['name']);
@@ -88,15 +88,48 @@ class UserController
             $userModel->setcidade($data['cidade']);
             $userModel->setestado($data['estado']);
             $userModel->setPassword($data['senha']);
-    
+
             $userDao = new UserDao();
             $userDao->register($userModel);
-    
+
 
         }
     }
 
+    public function login($data)
+    {
+        if (empty($data['email']) || empty($data['senha'])) {
+            $respom = "dados do Formulario vazio>";
+            return $respom;
+        } else {
+            $obj = new UserController();
 
+            $errorMessages = array();
+            $emailValidation = $this->validateEmail($data['email']);
+            if ($emailValidation !== true) {
+                $errorMessages[] = $emailValidation;
+            }
+            // Validação da senha
+            $senhaValidation = $this->validateSenha($data['senha']);
+            if ($senhaValidation !== true) {
+                $errorMessages[] = $senhaValidation;
+            }
+            // Se houver mensagens de erro, imprima-as
+            if (!empty($errorMessages)) {
+                foreach ($errorMessages as $errorMessage) {
+                    echo $errorMessage . "<br>";
+                }
+                return; // Encerre o método se houver erros
+            }
+
+            $userModel = new userModel();
+            $userModel->setEmail($data['email']);
+            $userModel->setPassword($data['senha']);
+            $userDao = new UserDao();
+            $userDao->login($userModel);
+
+        }
+    }
 
     private function validateName($data)
     {
@@ -147,10 +180,10 @@ class UserController
                 return true;
             }
         }
-        
-            $respom = "Cidade não encontrada";
-             return $respom;
-        
+
+        $respom = "Cidade não encontrada";
+        return $respom;
+
     }
 
     private function validateEstado($data)
@@ -202,7 +235,7 @@ if (intval($data['formulario']) == 1) {
     $obj->register($data);
 
 } else if (intval($data['formulario']) == 2) {
-    //$obj->login($data);
+    $obj->login($data);
 } else {
     echo "Formulario nao encontrado";
 }

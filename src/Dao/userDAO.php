@@ -22,7 +22,7 @@ class UserDao{
     $this->conexao = $objcon->getConnection();
     $query = mysqli_query(
        $this->conexao,
-            "INSERT INTO user (nome,email,senha,cidade,estado)
+            "INSERT INTO user (nome,email,password ,cidade,estado)
             VALUES('$nome_user','$email','$senha','$cidade','$estado')"
         );
     if($query){
@@ -33,5 +33,25 @@ class UserDao{
         return $response;
     }
    
+}
+
+public function login(userModel $userModel){
+    $objcon = new ConnectionBD();
+    $response = "";
+    $email = $userModel->getEmail();
+    $senha = $userModel->getPassword();
+    $this->conexao = $objcon->getConnection();
+    $query = mysqli_query(
+        $this->conexao,
+        "SELECT * FROM user WHERE email = '$email' and password = '$senha'"
+    );
+    if($query){
+        $response = $query;
+        var_dump ($response);
+    }else{
+        $response = "Nenhum usuario encotrado";
+        return $response;
+    }
+
 }
 }
