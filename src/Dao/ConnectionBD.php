@@ -1,13 +1,15 @@
 <?php
 
-class ConnectionBD {
-    
+class ConnectionBD
+{
+
     private $host = "localhost";
     private $usuario = "root";
     private $senha = "";
-    private $banco = "localconncetion";
+    private $banco = "localconnect";
 
-    public function getConnection() {
+    public function getConnection()
+    {
         $conexao = new mysqli($this->host, $this->usuario, $this->senha, $this->banco);
 
         if ($conexao->connect_error) {
