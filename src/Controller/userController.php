@@ -34,8 +34,11 @@ class UserController
             empty($data['estado']) ||
             empty($data['senha'])
         ) {
-            $respom = "dados do Formulario vazio>";
-            return $respom;
+            $respom = "<script>
+            window.alert('Dados Vazios');
+            window.location.href = '../../Templates/register.html' ;
+            </script>";
+            echo $respom;
         } else {
             $obj = new UserController();
 
@@ -126,34 +129,40 @@ class UserController
             $userModel->setPassword($data['senha']);
             $userDao = new UserDao();
             $respom = $userDao->login($userModel);
-            if($respom[1]==1){
-                $user  = $respom[0];
+            if ($respom[1] == 1) {
+                $user = $respom[0];
                 $_SESSION['id'] = $user['id'];
                 echo "<script>
                 window.alert('Login efetuado com sucesso');
                 window.location.href = '../../Templates/perfil.php' ;
                 
-                </script>";
-            }else{
+                </>";
+            } else {
 
-               echo "<script> window.alert('$respom[0]');</script>";
+                echo "<script> window.alert('$respom[0]');</script>";
             }
-        
-                
-            }
-        
+
+
+        }
+
     }
 
-    
+
     private function validateName($data)
     {
         $nome = $data;
         if (!preg_match("/^[a-zA-Z ]+$/", $nome)) {
-            $respom = "O nome deve conter apenas letras e espaços";
+            $respom = "<script>
+            window.alert('O nome deve conter apenas letras e espaços');
+            window.location.href = '../../Templates/register.html' ;
+            </script>";
             return $respom;
         }
         if (strlen($nome) < 2 || strlen($nome) > 50) {
-            $respom = "  O nome deve ter entre 2 e 50 caracteres.";
+            $respom = "<script>
+            window.alert(' O nome deve ter entre 2 e 50 caracteres.');
+            window.location.href = '../../Templates/register.html' ;
+            </script>";
             return $respom;
         }
         return true;
@@ -164,7 +173,10 @@ class UserController
         $email = trim($data);
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $respom = "O Email não é valido ";
+            $respom = "<script>
+            window.alert('O Email não é valido ');
+            window.location.href = '../../Templates/register.html' ;
+            </script>";
             return $respom;
         }
         return true;
@@ -174,7 +186,11 @@ class UserController
     {
         $cidade = $data;
         if (strlen($cidade) < 2 || strlen($cidade) > 60) {
-            $respom = "  A cidade deve ter entre 2 e 60 caracteres";
+            $respom = "<script>
+            window.alert('A cidade deve ter entre 2 e 60 caracteres');
+            window.location.href = '../../Templates/register.html' ;
+            </script>"
+            ;
             return $respom;
         }
 
@@ -195,7 +211,10 @@ class UserController
             }
         }
 
-        $respom = "Cidade não encontrada";
+        $respom = "<script>
+        window.alert('Cidade não encontrada');
+        window.location.href = '../../Templates/register.html' ;
+        </script>";
         return $respom;
 
     }
@@ -205,9 +224,12 @@ class UserController
         $estado = $data;
 
         if (strlen($estado) < 2 || strlen($estado) > 60) {
-
-            $respom = "O Estado deve ter entre 2 e 60 caracteres";
+            $respom = "<script>
+            window.alert('O Estado deve ter entre 2 e 60 caracteres');
+            window.location.href = '../../Templates/register.html' ;
+            </script>";
             return $respom;
+
         }
 
         $url = "https://servicodados.ibge.gov.br/api/v1/localidades/estados";
@@ -222,7 +244,11 @@ class UserController
                 return true;
             }
         }
-        return true;
+        $respom = "<script>
+        window.alert('Estado não encontrada');
+        window.location.href = '../../Templates/register.html' ;
+        </script>";
+        return $respom;
     }
 
     private function validateSenha($data)
@@ -230,11 +256,18 @@ class UserController
         $senha = trim($data);
 
         if (strlen($senha) < 8 || strlen($senha) > 20) {
-            $respom = "A senha  deve ter entre 8 e 20 caracteres.";
+
+            $respom = "<script>
+            window.alert('A senha  deve ter entre 8 e 20 caracteres');
+            window.location.href = '../../Templates/register.html' ;
+            </script>";
             return $respom;
         }
         if (strlen($senha) < 1 || !preg_match("/[A-Z]/", $senha)) {
-            $respom = " A senha deve ter pelo menos 1 caractere e 1 letra maiúscula.";
+            $respom = "<script>
+            window.alert('A senha deve ter pelo menos 1 caractere e 1 letra maiúscula');
+            window.location.href = '../../Templates/register.html' ;
+            </script>";
             return $respom;
         }
 
@@ -242,16 +275,18 @@ class UserController
     }
 }
 
-
-
 $obj = new UserController();
 if (intval($data['formulario']) == 1) {
     $obj->register($data);
 
 } else if ($data['formulario'] == 2) {
     $obj->login($data);
-    $data['formulario']=3;
+    $data['formulario'] = 3;
 
 } else {
-    echo "Formulario nao encontrado";
+    $respom = "<script>
+    window.alert('formulario não encontrado');
+    window.location.href = '../../Templates/register.html' ;
+    </script>";
+    return $respom;
 }
