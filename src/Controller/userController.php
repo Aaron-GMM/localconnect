@@ -19,7 +19,11 @@ if (
     $data['estado'] === false ||
     $data['senha'] === false
 ) {
-    echo "Problemas nos dados recebidos";
+    echo "<script>
+    window.alert('Problemas nos dados recebidos,
+    tente novamente se percitir contate nosso desevolvedores')
+    window.location.href = '../../Templates/register.html' ;
+    </script>";
     die();
 }
 class UserController
@@ -28,16 +32,19 @@ class UserController
     public function register($data)
     {
         if (
+
             empty($data['name']) ||
             empty($data['email']) ||
             empty($data['cidade']) ||
             empty($data['estado']) ||
             empty($data['senha'])
+
         ) {
+
             $respom = "<script>
-            window.alert('Dados Vazios');
-            window.location.href = '../../Templates/register.html' ;
-            </script>";
+                            window.alert('Dados Vazios');
+                            window.location.href = '../../Templates/register.html' ;
+                       </script>";
             echo $respom;
         } else {
             $obj = new UserController();
@@ -50,12 +57,10 @@ class UserController
                 $errorMessages[] = $nameValidation;
             }
 
-
             $emailValidation = $this->validateEmail($data['email']);
             if ($emailValidation !== true) {
                 $errorMessages[] = $emailValidation;
             }
-
 
             $cidadeValidation = $this->validateCidade($data['cidade']);
             if ($cidadeValidation !== true) {
@@ -73,7 +78,6 @@ class UserController
                 $errorMessages[] = $senhaValidation;
             }
 
-
             if (!empty($errorMessages)) {
                 foreach ($errorMessages as $errorMessage) {
                     echo $errorMessage . "<br>";
@@ -83,6 +87,7 @@ class UserController
 
 
             $userModel = new userModel();
+
             $userModel->setUsername($data['name']);
             $userModel->setEmail($data['email']);
             $userModel->setcidade($data['cidade']);
@@ -90,7 +95,9 @@ class UserController
             $userModel->setPassword($data['senha']);
 
             $userDao = new UserDao();
+
             $register = $userDao->register($userModel);
+
             if ($register) {
                 echo $register;
             }
@@ -105,8 +112,8 @@ class UserController
             return $respom;
         } else {
 
-
             $errorMessages = array();
+
             $emailValidation = $this->validateEmail($data['email']);
             if ($emailValidation !== true) {
                 $errorMessages[] = $emailValidation;
@@ -125,28 +132,73 @@ class UserController
             }
 
             $userModel = new userModel();
+
             $userModel->setEmail($data['email']);
             $userModel->setPassword($data['senha']);
+
             $userDao = new UserDao();
             $respom = $userDao->login($userModel);
+
             if ($respom[1] == 1) {
+
                 $user = $respom[0];
+
                 $_SESSION['id'] = $user['id'];
-                echo "<script>
-                window.alert('Login efetuado com sucesso');
-                window.location.href = '../../Templates/perfil.php' ;
-                
-                </>";
+
+                $resposta = $this->verclima($user['cidade']);
+
+                $_SESSION['temp'] = $resposta['Temperatura'];
+                $_SESSION['cond'] = $resposta['Condição'];
+                $_SESSION['Umidade'] = $resposta['umidade'];
+
+                echo "
+                <script>
+                    window.alert('Login feito com sucesso')
+                    window.location.href = '../../Templates/perfil.php' ;
+                </script>";
+
             } else {
 
-                echo "<script> window.alert('$respom[0]');</script>";
+                echo "
+                <script>
+                     window.alert(' Erro,$respom');
+                    window.location.href = '../../Templates/login.html' ;
+                </script>";
             }
-
-
         }
-
     }
 
+    public function verclima($data)
+    {
+
+        $res = "";
+        $api_key = '19c3891f1e99d11eb2c07869f416b956';
+
+        $city = $data;
+
+        $url = "http://api.openweathermap.org/data/2.5/weather?q=$city&units=metric&appid=$api_key&lang=pt_br";
+
+        $response = file_get_contents($url);
+
+        $data = json_decode($response, true);
+
+        if (!empty($data)) {
+
+            $temperature = $data['main']['temp'];
+            $weatherDescription = $data['weather'][0]['description'];
+            $humidity = $data['main']['humidity'];
+            $clima = array(
+                "Temperatura" => $temperature,
+                "Condição" => $weatherDescription,
+                "umidade" => $humidity,
+            );
+            $res = $clima;
+
+        } else {
+            $res = "Não foi possível obter informações climáticas.";
+        }
+        return $res;
+    }
 
     private function validateName($data)
     {

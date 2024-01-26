@@ -46,7 +46,20 @@
   align-items: center;
 }
 
-.card {
+.card-clima {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  box-shadow: rgba(0, 0, 0, 0.75) 0px 8px 19px;
+  border-radius: 24px;
+  width: 40%;
+  height: 200px;
+  border: 2px solid #ba4265;
+  margin-top: 5%;
+}
+.card-perfil{
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
@@ -59,11 +72,10 @@
   border: 2px solid #ba4265;
   margin-top: 5%;
 }
-
-.cont {
+.conteudo{
   display: flex;
   flex-direction: column;
-  gap: 55px;
+  gap: 25px;
   margin-top: 1%;
 
    span {
@@ -71,6 +83,20 @@
 
     }
 }
+
+.cont {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 55px;
+
+
+   span {
+    color: #ba4265;
+
+    }
+}
+
 /* Estilo do botão */
 .button {
   display: inline-block;
