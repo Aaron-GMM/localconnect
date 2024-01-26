@@ -13,10 +13,11 @@
             "server": "localhost",
             "port": 3306,
             "driver": "MariaDB",
-            "name": "localconnect",
-            "group": "teste1",
             "database": "localconnect",
-            "username": "root"
+            "username": "root",
+            "name": "TESTE",
+            "group": "TESTE",
+            "password": ""
         },
         {
             "mysqlOptions": {
@@ -27,10 +28,9 @@
             "server": "localhost",
             "port": 3306,
             "driver": "MariaDB",
+            "name": "localconnect",
             "database": "localconnect",
             "username": "root",
-            "name": "TESTE",
-            "group": "TESTE",
             "password": ""
         }
     ]

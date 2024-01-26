@@ -63,7 +63,9 @@ public function login(userModel $userModel){
     return $response;
 
 }
-
+public function searchuser(){
+    return;
+}
 public function searchbyid($id){
     $objcon = new ConnectionBD();
 
