@@ -68,8 +68,8 @@ if (empty($_SESSION['id'])) {
 
       <div class="cont">
         <div>
-          <h1>Bem vindo <span>
-              <?php echo empty($prime[0]) ? " " : $prime[0]; ?>
+          <h1 >Bem vindo <span>
+              <?php echo empty($prime[0]) ? "Não está conectado!" : $prime[0]; ?>
             </span></h1>
         </div>
 
@@ -93,9 +93,9 @@ if (empty($_SESSION['id'])) {
         <div>
 
           <?php if (empty($_SESSION['id'])) { ?>
-            <a type="submit" class="button" href="../Templates/exit.php">Cadastre-se</a>
-            <a type="submit" class="button" href="../Templates/exit.php">Conete-se</a>
-            <a type="submit" class="button" href="../index.html">Voltar</a>
+            <a type="submit" class="button" href="../Templates/register.html">Cadastre-se</a>
+            <a type="submit" class="button" href="../Templates/login.html">Conete-se</a>
+            
 
           <?php } else { ?>
             <a class="button" href="#">Atualizar</a>

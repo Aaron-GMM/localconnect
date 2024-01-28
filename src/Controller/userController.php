@@ -168,6 +168,11 @@ class UserController
         }
     }
 
+    public function show_user(){
+        $UserDao = new UserDao();
+        $UserDao->searchuser();
+        return;
+    }
     public function verclima($data)
     {
 
