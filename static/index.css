@@ -45,7 +45,19 @@
   justify-content: center;
   align-items: center;  
 }
-
+.card{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  box-shadow: rgba(0, 0, 0, 0.75) 0px 8px 19px;
+  border-radius: 24px;
+  width: 50%;
+  height: 500px;
+  border: 2px solid #ba4265;
+  margin-top: 5%;
+}
 .card-clima {
   display: flex;
   flex-direction: column;
@@ -72,6 +84,7 @@
   border: 2px solid #ba4265;
   margin-top: 5%;
 }
+
 .conteudo{
   display: flex;
   flex-direction: column;
@@ -84,13 +97,30 @@
 
     }
 }
-
-.cont {
+.conte{
   display: flex;
+  justify-content: center;
+  align-items: center;
   flex-direction: column;
   flex-wrap: wrap;
   width: 50%;
-  gap: 45px;
+  gap: 35px;
+
+
+   span {
+    color: #ba4265;
+
+    }
+}
+.cont {
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  flex-wrap: wrap;
+  width: 100%;
+  gap: 35px;
 
 
    span {
@@ -138,7 +168,20 @@
     height: 500px;
  
   }
+ 
+  .cont {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 60%;
+    gap: 45px;
   
+  
+     span {
+      color: #ba4265;
+  
+      }
+  }
 }
 
 
@@ -150,7 +193,19 @@
     width: 70%;
     height: 500px;
   }
-
+  .cont {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 70%;
+    gap: 45px;
+  
+  
+     span {
+      color: #ba4265;
+  
+      }
+  }
 }
 @media only screen and (max-width: 992px) {
  .card-perfil{
@@ -158,20 +213,69 @@
     flex-direction: column;
     flex-wrap: wrap;
     width: 80%;
-    height: 500px;
+    height: 800px;
   }
-
+  .cont {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 90%;
+    gap: 45px;
+  
+  
+     span {
+      color: #ba4265;
+  
+      }
+  }
 }
+
+@media only screen and (max-width:837px ) {
+  .card-perfil{
+     display: flex;
+     flex-direction: column;
+     flex-wrap: wrap;
+     width: 90%;
+     height: 700px;
+   }
+   .cont {
+     display: flex;
+     flex-direction: column;
+     flex-wrap: wrap;
+     width: 90%;
+     gap: 45px;
+   
+   
+      span {
+       color: #ba4265;
+   
+       }
+   }
+   
+ }
+ 
 @media only screen and (max-width:820px ) {
  .card-perfil{
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
     width: 90%;
-    height: 500px;
+    height: 700px;
   }
-
-
+  .cont {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 90%;
+    gap: 45px;
+  
+  
+     span {
+      color: #ba4265;
+  
+      }
+  }
+  
 }
 
 @media only screen and (max-width:768px ) {
@@ -180,11 +284,24 @@
     flex-direction: column;
     flex-wrap: wrap;
     width: 90%;
-    height: 500px;
+    height: 800px;
     font-size: 15px;
     align-items: center;
     justify-content: center;
     text-align: center;
+  }
+  .cont {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 90%;
+    gap: 45px;
+  
+  
+     span {
+      color: #ba4265;
+  
+      }
   }
 
   .inten{
@@ -202,19 +319,31 @@
   }
 }
 
-@media only screen and (max-width:476px ) {
+@media only screen and (max-width:551px ) {
  .card-perfil{
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
     width: 90%;
-    height: 500px;
+    height: 900px;
     font-size: 12px;
     align-items: center;
     justify-content: center;
     text-align: center;
   }
-
+  .cont {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 90%;
+    gap: 45px;
+  
+  
+     span {
+      color: #ba4265;
+  
+      }
+  }
   .inten{
     display: flex;
     flex-direction: column;

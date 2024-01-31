@@ -25,7 +25,7 @@ if (empty($_SESSION['id'])) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Localconncet</title>
-  <link rel="stylesheet" href="../static/inde.css">
+  <link rel="stylesheet" href="../static/index.css">
 
 </head>
 
@@ -66,7 +66,7 @@ if (empty($_SESSION['id'])) {
       </div>
 
 
-      <div class="cont">
+      <div class="conte">
         <div>
           <h1 >Bem vindo <span>
               <?php echo empty($prime[0]) ? "Não está conectado!" : $prime[0]; ?>

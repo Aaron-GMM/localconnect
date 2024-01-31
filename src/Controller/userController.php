@@ -1,6 +1,6 @@
 <?php
-require_once 'C:\xampp\htdocs\localconnect\src\Model\userModel.php';
-require_once 'C:\xampp\htdocs\localconnect\src\Dao\userDAO.php';
+require_once '../../src/Model/userModel.php';
+require_once '../../src/Dao/userDAO.php';
 
 session_start();
 
@@ -47,7 +47,6 @@ class UserController
                        </script>";
             echo $respom;
         } else {
-            $obj = new UserController();
 
             $errorMessages = array();
 
@@ -99,7 +98,10 @@ class UserController
             $register = $userDao->register($userModel);
 
             if ($register) {
-                echo $register;
+                echo "<script>
+                window.alert('$register')
+                window.location.href = '../../Templates/login.html' ;
+          </script>";
             }
 
         }
@@ -108,8 +110,11 @@ class UserController
     public function login($data)
     {
         if (empty($data['email']) || empty($data['senha'])) {
-            $respom = "dados do Formulario vazio>";
-            return $respom;
+            $respom = "<script>
+                             window.alert('Dados do Formulario Vazio')
+                             window.location.href = '../../Templates/login.html' ;
+                       </script>";
+            echo $respom;
         } else {
 
             $errorMessages = array();
@@ -167,12 +172,81 @@ class UserController
             }
         }
     }
+    public function deleteuser()
+    {
+        $UserDao = new UserDao();
+        $UserDao->deletuser();
+        return;
+    }
+    public function updateuser($data)
+    {
+        $errorMessages = array();
 
-    public function show_user(){
+
+        $nameValidation = $this->validateName($data['name']);
+        if ($nameValidation !== true) {
+            $errorMessages[] = $nameValidation;
+        }
+
+        $emailValidation = $this->validateEmail($data['email']);
+        if ($emailValidation !== true) {
+            $errorMessages[] = $emailValidation;
+        }
+
+        $cidadeValidation = $this->validateCidade($data['cidade']);
+        if ($cidadeValidation !== true) {
+            $errorMessages[] = $cidadeValidation;
+        }
+
+
+        $estadoValidation = $this->validateEstado($data['estado']);
+        if ($estadoValidation !== true) {
+            $errorMessages[] = $estadoValidation;
+        }
+
+        $senhaValidation = $this->validateSenha($data['senha']);
+        if ($senhaValidation !== true) {
+            $errorMessages[] = $senhaValidation;
+        }
+
+        if (!empty($errorMessages)) {
+            foreach ($errorMessages as $errorMessage) {
+                echo $errorMessage . "<br>";
+            }
+            return;
+        }
+
+
+        $userModel = new userModel();
+
+        $userModel->setUsername($data['name']);
+        $userModel->setEmail($data['email']);
+        $userModel->setcidade($data['cidade']);
+        $userModel->setestado($data['estado']);
+        $userModel->setPassword($data['senha']);
+
+        $UserDao = new UserDao();
+
+
+        $register = $UserDao->updateuser($userModel);
+
+
+        if ($register) {
+            echo "<script>
+                     window.alert('$register')
+                     window.location.href = '../../Templates/login.html' ;
+                 </script>";
+        }
+
+    }
+    public function show_user()
+    {
         $UserDao = new UserDao();
         $UserDao->searchuser();
         return;
     }
+
+
     public function verclima($data)
     {
 
@@ -239,7 +313,7 @@ class UserController
         return true;
     }
 
-    function validateCidade($data)
+    private function validateCidade($data)
     {
         $cidade = $data;
         if (strlen($cidade) < 2 || strlen($cidade) > 60) {
@@ -338,7 +412,13 @@ if (intval($data['formulario']) == 1) {
 
 } else if ($data['formulario'] == 2) {
     $obj->login($data);
-    $data['formulario'] = 3;
+    $data['formulario'] = 0;
+
+} else if ($data['formulario'] == 3) {
+    $obj->updateuser($data);
+
+} else if ($data['formulario'] == 4) {
+    $obj->deleteuser();
 
 } else {
     $respom = "<script>
