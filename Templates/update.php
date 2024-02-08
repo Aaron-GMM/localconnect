@@ -1,3 +1,17 @@
+<?php
+require_once 'C:\xampp\htdocs\localconnect\src\Dao\userDAO.php';
+
+session_start();
+if (empty($_SESSION['id'])) {
+  echo "";
+} else {
+  $id = $_SESSION['id'];
+  $userD = new UserDao();
+  $response = $userD->searchbyid($id);
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,31 +38,33 @@
           <div class="formulario">
             <div>
               <label>Nome:</label>
-              <input type="text" name="name">
+              <input type="text" value='<?php echo empty($response[0]['nome'])? "": $response[0]['nome'] ?>'   name="name">
             </div>
 
             <div>
               <label>Email:</label>
-              <input type="text" name="email">
+              <input type="text" value='<?php echo empty($response[0]['email'])? "": $response[0]['email'] ?>'  name="email">
             </div>
 
             <div>
               <label>Cidade:</label>
-              <input type="text" name="cidade">
+              <input type="text"  value='<?php echo empty($response[0]['cidade'])? "": $response[0]['cidade'] ?>'  name="cidade">
             </div>
             <div>
               <label>Estado:</label>
-              <input type="text" name="estado">
+              <input type="text"value='<?php echo empty($response[0]['estado'])? "": $response[0]['estado'] ?>'  name="estado">
             </div>
 
             <div>
               <label>Senha:</label>
-              <input type="password" name="senha">
+              <input type="text" value='<?php echo empty($response[0]['senha'])? "": $response[0]['senha'] ?>'  name="senha">
             </div>
             <input style="display: none;" type="radio" value=3 name="formulario" checked >
+            <input style="display: none;" type="radio" value='<?php echo empty($response[0]['id'])? "": $response[0]['id'] ?>' name="id" checked >
+
             <div style="display: flex; flex-direction: row; gap: 10px;">
               <input class="button" type="submit" value="ATUALIZAR">
-              <a type="submit" class="button" href="../index.html">Voltar</a>
+              <a type="submit" class="button" href="../Templates/perfil.php">Voltar</a>
             </div>
             
           </div>

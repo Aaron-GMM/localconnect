@@ -10,7 +10,8 @@ $data = array(
     "cidade" => filter_input(INPUT_POST, 'cidade'),
     "estado" => filter_input(INPUT_POST, 'estado'),
     "senha" => filter_input(INPUT_POST, 'senha'),
-    "formulario" => (int) $_POST['formulario']
+    "formulario" => (int) $_POST['formulario'],
+    "id" => (int)$_POST['id']
 );
 if (
     $data['name'] === false ||
@@ -31,6 +32,7 @@ class UserController
 
     public function register($data)
     {
+        $userDao = new UserDao();
         if (
 
             empty($data['name']) ||
@@ -50,7 +52,10 @@ class UserController
 
             $errorMessages = array();
 
-
+            $emailverification = $userDao->searchbyemail($data['email']);
+            if ($emailverification !== true) {
+                $errorMessages[] = $emailverification;
+            }
             $nameValidation = $this->validateName($data['name']);
             if ($nameValidation !== true) {
                 $errorMessages[] = $nameValidation;
@@ -79,7 +84,10 @@ class UserController
 
             if (!empty($errorMessages)) {
                 foreach ($errorMessages as $errorMessage) {
-                    echo $errorMessage . "<br>";
+                    echo  "<script>
+                         window.alert('$errorMessage')
+                         window.location.href = '../../Templates/register.html'
+                      </script>";
                 }
                 return;
             }
@@ -93,7 +101,7 @@ class UserController
             $userModel->setestado($data['estado']);
             $userModel->setPassword($data['senha']);
 
-            $userDao = new UserDao();
+
 
             $register = $userDao->register($userModel);
 
@@ -106,7 +114,6 @@ class UserController
 
         }
     }
-
     public function login($data)
     {
         if (empty($data['email']) || empty($data['senha'])) {
@@ -131,7 +138,10 @@ class UserController
 
             if (!empty($errorMessages)) {
                 foreach ($errorMessages as $errorMessage) {
-                    echo $errorMessage . "<br>";
+                    echo  "<script>
+                window.alert('$errorMessage')
+                window.location.href = '../../Templates/login.html' ;
+                   </script>";
                 }
                 return;
             }
@@ -150,7 +160,7 @@ class UserController
 
                 $_SESSION['id'] = $user['id'];
 
-                $resposta = $this->verclima($user['cidade']);
+                $resposta = $this->getweather($user['cidade']);
 
                 $_SESSION['temp'] = $resposta['Temperatura'];
                 $_SESSION['cond'] = $resposta['Condição'];
@@ -175,7 +185,7 @@ class UserController
     public function deleteuser()
     {
         $UserDao = new UserDao();
-        $UserDao->deletuser();
+        $UserDao->deleteuser();
         return;
     }
     public function updateuser($data)
@@ -211,14 +221,18 @@ class UserController
 
         if (!empty($errorMessages)) {
             foreach ($errorMessages as $errorMessage) {
-                echo $errorMessage . "<br>";
+                echo  "<script>
+                window.alert('$errorMessage')
+                window.location.href = '../../Templates/update.php' ;
+                   </script>";
+                
             }
             return;
         }
 
 
         $userModel = new userModel();
-
+        $userModel->setId($data['id']);
         $userModel->setUsername($data['name']);
         $userModel->setEmail($data['email']);
         $userModel->setcidade($data['cidade']);
@@ -228,26 +242,42 @@ class UserController
         $UserDao = new UserDao();
 
 
-        $register = $UserDao->updateuser($userModel);
+        $response = $UserDao->updateuser($userModel);
 
 
-        if ($register) {
-            echo "<script>
-                     window.alert('$register')
-                     window.location.href = '../../Templates/login.html' ;
-                 </script>";
+        if ($response[1] == 1) {
+
+           
+            $resposta = $this->getweather($data['cidade']);
+
+            $_SESSION['temp'] = $resposta['Temperatura'];
+            $_SESSION['cond'] = $resposta['Condição'];
+            $_SESSION['Umidade'] = $resposta['umidade'];
+
+
+            echo "
+            <script>
+                 window.alert('$response[0]');
+                window.location.href = '../../Templates/perfil.php' ;
+            </script>";
+
+        } else {
+
+            echo "
+            <script>
+                 window.alert('errp:$response[0]');
+                window.location.href = '../../Templates/update.php' ;
+            </script>";
         }
 
     }
     public function show_user()
     {
         $UserDao = new UserDao();
-        $UserDao->searchuser();
+        $UserDao->showusers();
         return;
     }
-
-
-    public function verclima($data)
+    public function getweather($data)
     {
 
         $res = "";
@@ -279,21 +309,21 @@ class UserController
         return $res;
     }
 
+
+
+
+
+
+
     private function validateName($data)
     {
         $nome = $data;
         if (!preg_match("/^[a-zA-Z ]+$/", $nome)) {
-            $respom = "<script>
-            window.alert('O nome deve conter apenas letras e espaços');
-            window.location.href = '../../Templates/register.html' ;
-            </script>";
+            $respom = "O nome deve conter apenas letras e espaços";
             return $respom;
         }
         if (strlen($nome) < 2 || strlen($nome) > 50) {
-            $respom = "<script>
-            window.alert(' O nome deve ter entre 2 e 50 caracteres.');
-            window.location.href = '../../Templates/register.html' ;
-            </script>";
+            $respom = "O nome deve ter entre 2 e 50 caracteres.";
             return $respom;
         }
         return true;
@@ -304,10 +334,7 @@ class UserController
         $email = trim($data);
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $respom = "<script>
-            window.alert('O Email não é valido ');
-            window.location.href = '../../Templates/register.html' ;
-            </script>";
+            $respom = "O Email não é valido";
             return $respom;
         }
         return true;
@@ -317,11 +344,7 @@ class UserController
     {
         $cidade = $data;
         if (strlen($cidade) < 2 || strlen($cidade) > 60) {
-            $respom = "<script>
-            window.alert('A cidade deve ter entre 2 e 60 caracteres');
-            window.location.href = '../../Templates/register.html' ;
-            </script>"
-            ;
+            $respom = "A cidade deve ter entre 2 e 60 caracteres";
             return $respom;
         }
 
@@ -342,10 +365,7 @@ class UserController
             }
         }
 
-        $respom = "<script>
-        window.alert('Cidade não encontrada');
-        window.location.href = '../../Templates/register.html' ;
-        </script>";
+        $respom = "Cidade não encontrada";
         return $respom;
 
     }
@@ -355,10 +375,7 @@ class UserController
         $estado = $data;
 
         if (strlen($estado) < 2 || strlen($estado) > 60) {
-            $respom = "<script>
-            window.alert('O Estado deve ter entre 2 e 60 caracteres');
-            window.location.href = '../../Templates/register.html' ;
-            </script>";
+            $respom = "O Estado deve ter entre 2 e 60 caracteres";
             return $respom;
 
         }
@@ -375,10 +392,7 @@ class UserController
                 return true;
             }
         }
-        $respom = "<script>
-        window.alert('Estado não encontrada');
-        window.location.href = '../../Templates/register.html' ;
-        </script>";
+        $respom = "Estado não encontrada";
         return $respom;
     }
 
@@ -388,17 +402,11 @@ class UserController
 
         if (strlen($senha) < 8 || strlen($senha) > 20) {
 
-            $respom = "<script>
-            window.alert('A senha  deve ter entre 8 e 20 caracteres');
-            window.location.href = '../../Templates/register.html' ;
-            </script>";
+            $respom = "A senha  deve ter entre 8 e 20 caracteres";
             return $respom;
         }
         if (strlen($senha) < 1 || !preg_match("/[A-Z]/", $senha)) {
-            $respom = "<script>
-            window.alert('A senha deve ter pelo menos 1 caractere e 1 letra maiúscula');
-            window.location.href = '../../Templates/register.html' ;
-            </script>";
+            $respom = "A senha deve ter pelo menos 1 caractere e 1 letra maiúscula";
             return $respom;
         }
 
@@ -406,6 +414,11 @@ class UserController
     }
 }
 
+
+
+
+
+//controle de formularios
 $obj = new UserController();
 if (intval($data['formulario']) == 1) {
     $obj->register($data);

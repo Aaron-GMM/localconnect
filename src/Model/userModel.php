@@ -1,6 +1,8 @@
 <?php
 class userModel
 {
+
+    private $id;
     private $username;
     private $email;
     private $cidade;
@@ -8,7 +10,10 @@ class userModel
 
     private $password;
 
-
+    public function getId()
+    {
+        return $this->id;
+    }
     public function getUsername()
     {
         return $this->username;
@@ -32,6 +37,9 @@ class userModel
         return $this->password;
     }
 
+    public function setId($id){
+        $this->id = $id;
+    }
     public function setUsername($username)
     {
         $this->username = $username;

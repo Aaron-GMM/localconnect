@@ -66,15 +66,14 @@ class UserDao
         return $response;
 
     }
-
-    public function deletuser()
+    public function deleteuser()
     {
         return;
     }
-
     public function updateuser(userModel $userModel)
     {
         $response = "";
+        $id_user = $userModel->getId();
         $nome_user = $userModel->getUsername();
         $email = $userModel->getEmail();
         $senha = $userModel->getPassword();
@@ -85,19 +84,23 @@ class UserDao
         $this->conexao = $objcon->getConnection();
         $query = mysqli_query(
             $this->conexao,
-            "UPDATE user SET nome = '$nome_user', email = '$email', senha = '$senha', cidade = '$cidade', estado = '$estado'"
+            "UPDATE user SET nome = '$nome_user', email = '$email', senha = '$senha', cidade = '$cidade', estado = '$estado' WHERE id ='$id_user' "
         );
         if ($query) {
-            $response = "usuario atualizado com sucesso";
+            $response = array("usuario atualizado com sucesso",1);
         } else {
             $response = "Erro ao tentar atualizar o usuario";
         }
         return $response;
     }
-    public function searchuser()
+    public function showusers()
     {
         return;
     }
+
+
+
+
     public function searchbyid($id)
     {
         $objcon = new ConnectionBD();
@@ -117,12 +120,29 @@ class UserDao
         return $response;
     }
 
+    public function searchbyemail($email)
+    {
+        $objcon = new ConnectionBD();
+
+        $this->conexao = $objcon->getConnection();
+
+        $query = mysqli_query($this->conexao, "SELECT * FROM user WHERE email = '$email' ");
+        if ($query) {
+            if (mysqli_num_rows($query) == 1) {
+                $response = "<script>
+                                window.alert('Email existente')
+                                window.location.href = '../../Templates/register.html' 
+                             </script>";
+            } else {
+                $response = true;
+            }
+        } else {
+            $response = "Erro ao executar a consulta: " . mysqli_error($this->conexao);
+        }
+        return $response;
+    }
 
 
 
 }
-
-
-
-
 

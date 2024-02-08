@@ -98,7 +98,7 @@ if (empty($_SESSION['id'])) {
             
 
           <?php } else { ?>
-            <a class="button" href="#">Atualizar</a>
+            <a class="button" href="../Templates/update.php">Atualizar</a>
             <a class="button" href="#">Excluir</a>
             <a type="submit" class="button" href="../Templates/exit.php">sair</a>
 
