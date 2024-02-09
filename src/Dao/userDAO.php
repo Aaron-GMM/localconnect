@@ -68,7 +68,7 @@ class UserDao
     }
     public function deleteuser()
     {
-        return;
+       
     }
     public function updateuser(userModel $userModel)
     {
@@ -87,16 +87,34 @@ class UserDao
             "UPDATE user SET nome = '$nome_user', email = '$email', senha = '$senha', cidade = '$cidade', estado = '$estado' WHERE id ='$id_user' "
         );
         if ($query) {
-            $response = array("usuario atualizado com sucesso",1);
+            $response = array("usuario atualizado com sucesso", 1);
         } else {
             $response = "Erro ao tentar atualizar o usuario";
         }
         return $response;
     }
     public function showusers()
-    {
-        return;
+{
+    $objcon = new ConnectionBD();
+    $response = array();
+
+    $this->conexao = $objcon->getConnection();
+    $query = mysqli_query(
+        $this->conexao,
+        "SELECT nome, cidade, estado FROM user"
+    );
+
+    if($query && mysqli_num_rows($query) > 0) {
+        while($row = mysqli_fetch_assoc($query)) {
+            $response[] = $row;
+        }
+    } else {
+        $response = array("Nenhum usuário cadastrado");
     }
+    mysqli_close($this->conexao);
+
+    return $response;
+}
 
 
 
