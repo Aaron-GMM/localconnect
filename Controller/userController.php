@@ -1,6 +1,6 @@
 <?php
-require_once '../../src/Model/userModel.php';
-require_once '../../src/Dao/userDAO.php';
+require_once '..//Model/userModel.php';
+require_once '../Dao/userDAO.php';
 
 session_start();
 
@@ -30,6 +30,7 @@ if (
 class UserController
 {
 
+    //requisitos
     public function register($data)
     {
         $userDao = new UserDao();
@@ -271,12 +272,7 @@ class UserController
         }
 
     }
-    public function show_user()
-    {
-        $UserDao = new UserDao();
-        $UserDao->showusers();
-        return;
-    }
+   
     public function getweather($data)
     {
 
@@ -314,7 +310,7 @@ class UserController
 
 
 
-
+//validações 
     private function validateName($data)
     {
         $nome = $data;
@@ -418,7 +414,7 @@ class UserController
 
 
 
-//controle de formularios
+//controle de formularios e requisitos
 $obj = new UserController();
 if (intval($data['formulario']) == 1) {
     $obj->register($data);

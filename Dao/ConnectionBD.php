@@ -4,9 +4,9 @@ class ConnectionBD
 {
 
     private $host = "localhost";
-    private $usuario = "root";
-    private $senha = "";
-    private $banco = "localconnect";
+    private $usuario = "id21815086_aaronadm";
+    private $senha = "AARoN091205$";
+    private $banco = "id21815086_localconnect";
 
     public function getConnection()
     {

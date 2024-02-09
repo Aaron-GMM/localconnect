@@ -1,5 +1,5 @@
 <?php
-require_once 'C:\xampp\htdocs\localconnect\src\Dao\userDAO.php';
+require_once '../Dao/userDAO.php';
 
 session_start();
 if (empty($_SESSION['id'])) {
@@ -19,7 +19,7 @@ if (empty($_SESSION['id'])) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Localconncet</title>
-  <link rel="stylesheet" href="../static/index.css">
+  <link rel="stylesheet" href="../static/inde.css">
 
 </head>
 
