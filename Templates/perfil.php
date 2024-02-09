@@ -25,7 +25,7 @@ if (empty($_SESSION['id'])) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Localconncet</title>
-  <link rel="stylesheet" href="../static/index.css">
+  <link rel="stylesheet" href="../static/inde.css">
 
 </head>
 
@@ -100,6 +100,7 @@ if (empty($_SESSION['id'])) {
           <?php } else { ?>
             <a class="button" href="../Templates/update.php">Atualizar</a>
             <a class="button" href="#">Excluir</a>
+            <a class="button" href="../index.html">Voltar</a>
             <a type="submit" class="button" href="../Templates/exit.php">sair</a>
 
           <?php } ?>
