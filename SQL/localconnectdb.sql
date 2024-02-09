@@ -1,0 +1,14 @@
+CREATE DATABASE IF NOT EXISTS localconnect;
+
+use localconnect; 
+
+CREATE TABLE IF NOT EXISTS `user` (
+`id` int NOT NULL AUTO_INCREMENT,
+`nome` VARCHAR(255) NOT NULL,
+`email` VARCHAR(255) NOT NULL,
+`senha` VARCHAR(255) NOT NULL,
+`cidade` VARCHAR(255) NOT NULL,
+`estado` VARCHAR(255) NOT NULL,
+PRIMARY KEY (`id`)
+    
+)
