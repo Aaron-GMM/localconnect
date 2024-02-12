@@ -8,11 +8,15 @@ if (empty($_SESSION['id'])) {
   $id = $_SESSION['id'];
   $userD = new UserDao();
   $response = $userD->searchbyid($id);
+  if (empty($response)) {
+    echo "";
+  }else{
   $nome = $response[0]['nome'];
   $prime = explode(' ', $nome, 2);
   $temperatura = $_SESSION['temp'];
   $condicao = $_SESSION['cond'];
   $umidade = $_SESSION['Umidade'];
+}
 }
 
 
@@ -68,7 +72,7 @@ if (empty($_SESSION['id'])) {
 
       <div class="conte">
         <div>
-          <h1 >Bem vindo <span>
+          <h1>Bem vindo <span>
               <?php echo empty($prime[0]) ? "Não está conectado!" : $prime[0]; ?>
             </span></h1>
         </div>
@@ -95,14 +99,20 @@ if (empty($_SESSION['id'])) {
           <?php if (empty($_SESSION['id'])) { ?>
             <a type="submit" class="button" href="../Templates/register.html">Cadastre-se</a>
             <a type="submit" class="button" href="../Templates/login.html">Conete-se</a>
-            
+            <a class="button" href="../index.html">Voltar</a>
+
 
           <?php } else { ?>
-            <a class="button" href="../Templates/update.php">Atualizar</a>
-            <a class="button" href="#">Excluir</a>
-            <a class="button" href="../index.html">Voltar</a>
-            <a type="submit" class="button" href="../Templates/exit.php">sair</a>
-
+            <div style=" display:flex; flex-wrap: wrap; gap: 5px;">
+              <a class="button" href="../Templates/update.php">Atualizar</a>
+              <form  method="POST" action="../src/Controller/userController.php">
+                <input type="checkbox" name="id" hidden="true" value='<?php echo $id ?>' checked>
+                <input type="checkbox" name="formulario" hidden="true" value="4" checked>
+                <button type="submit" class="button">Excluir</button>
+              </form>
+              <a class="button" href="../index.html">Voltar</a>
+              <a type="submit" class="button" href="../Templates/exit.php">sair</a>
+            </div>
           <?php } ?>
 
         </div>

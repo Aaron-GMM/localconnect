@@ -66,9 +66,23 @@ class UserDao
         return $response;
 
     }
-    public function deleteuser()
+    public function deleteuser(userModel $userModel)
     {
+        $response = "";
+        $objcon = new ConnectionBD();
+        $id_user = $userModel->getId();
        
+        $this->conexao = $objcon->getConnection();
+            $query  = mysqli_query(
+                $this->conexao,
+                "DELETE FROM user WHERE id =  $id_user "
+                )  ;
+            if($query){
+                $response = array("Usuario deletado com sucesso",1);
+            }else{
+                $response = "Erro ao executar a consulta: " ;
+            }
+            return $response;
     }
     public function updateuser(userModel $userModel)
     {
@@ -94,27 +108,27 @@ class UserDao
         return $response;
     }
     public function showusers()
-{
-    $objcon = new ConnectionBD();
-    $response = array();
+    {
+        $objcon = new ConnectionBD();
+        $response = array();
 
-    $this->conexao = $objcon->getConnection();
-    $query = mysqli_query(
-        $this->conexao,
-        "SELECT nome, cidade, estado FROM user"
-    );
+        $this->conexao = $objcon->getConnection();
+        $query = mysqli_query(
+            $this->conexao,
+            "SELECT nome, cidade, estado FROM user"
+        );
 
-    if($query && mysqli_num_rows($query) > 0) {
-        while($row = mysqli_fetch_assoc($query)) {
-            $response[] = $row;
+        if ($query && mysqli_num_rows($query) > 0) {
+            while ($row = mysqli_fetch_assoc($query)) {
+                $response[] = $row;
+            }
+        } else {
+            $response = array("Nenhum usuário cadastrado");
         }
-    } else {
-        $response = array("Nenhum usuário cadastrado");
-    }
-    mysqli_close($this->conexao);
+        mysqli_close($this->conexao);
 
-    return $response;
-}
+        return $response;
+    }
 
 
 

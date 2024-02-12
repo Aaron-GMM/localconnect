@@ -5,12 +5,11 @@ session_start();
 if (empty($_SESSION['id'])) {
     echo "";
 } else {
-    $id = $_SESSION['id'];
-    $userD = new UserDao();
-    $response = $userD->searchbyid($id);
+    $UserDao = new UserDao();
+    $resposta = $UserDao->showusers();
+    var_dump($resposta);
 }
-$UserDao = new UserDao();
-$resposta = $UserDao->showusers();
+
 
 ?>
 
@@ -45,15 +44,18 @@ $resposta = $UserDao->showusers();
                             <th>Estado</th>
                         </tr>
                         <?php
-
-                        foreach ($resposta as $resposta) {
-                            echo "<tr><td>" . $resposta["nome"] . "</td><td>" . $resposta["cidade"] . "</td><td>" . $resposta["estado"] . "</td></tr>";
+                        if (empty($resposta)) {
+                            echo " <tr>  Sem usuarios cadastrados </tr>";
+                        } else {
+                            foreach ($resposta as $resposta) {
+                                echo "<tr><td>" . $resposta["nome"] . "</td><td>" . $resposta["cidade"] . "</td><td>" . $resposta["estado"] . "</td></tr>";
+                            }
                         }
                         ?>
                     </table>
                 </div>
                 <div>
-                    <form method="POST" action="">
+                    <form method="POST" action="../src/Controller/userController.php">
                         <h2 for="">Filtrar por Cidade</h2><br>
                         <div>
 
@@ -61,6 +63,7 @@ $resposta = $UserDao->showusers();
                                 <option value="">Quixada</option>
 
                             </select>
+                            <input style="display: none;" type="radio" value=5 name="formulario" checked>
                             <input class="button" type="submit">
                         </div>
 
