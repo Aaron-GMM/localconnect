@@ -1,6 +1,6 @@
 <?php
-require_once '../../src/Model/userModel.php';
-require_once '../../src/Dao/userDAO.php';
+require_once './../src/Model/userModel.php';
+require_once './../src/Dao/userDAO.php';
 
 session_start();
 
@@ -10,8 +10,8 @@ $data = array(
     "cidade" => filter_input(INPUT_POST, 'cidade'),
     "estado" => filter_input(INPUT_POST, 'estado'),
     "senha" => filter_input(INPUT_POST, 'senha'),
-    "formulario" => (int) $_POST['formulario'],
-    "id" => (int) $_POST['id']
+    "formulario" => (int)filter_input(INPUT_POST,'formulario'),
+    "id" => (int) filter_input(INPUT_POST,'id')
 );
 if (
     $data['name'] === false ||
@@ -328,7 +328,19 @@ class UserController
         return $res;
     }
 
+    public function searchcity($data)
+    {
+        $reponse = " ";
+        $UserDao = new UserDao();
+        $userModel = new userModel();
 
+        $userModel->setcidade($data['cidade']);
+
+        $reponse = array( $UserDao->searchcity($userModel),1);
+        
+        return $reponse;
+
+    }
 
 
 
@@ -452,8 +464,6 @@ if (intval($data['formulario']) == 1) {
 } else if ($data['formulario'] == 4) {
     $obj->deleteuser($data);
 
-} elseif ($data['formulario'] == 5) {
-    //$obj->searchcity($data);
 } else {
     $respom = "<script>
     window.alert('formulario não encontrado');

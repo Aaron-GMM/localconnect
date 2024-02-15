@@ -71,18 +71,18 @@ class UserDao
         $response = "";
         $objcon = new ConnectionBD();
         $id_user = $userModel->getId();
-       
+
         $this->conexao = $objcon->getConnection();
-            $query  = mysqli_query(
-                $this->conexao,
-                "DELETE FROM user WHERE id =  $id_user "
-                )  ;
-            if($query){
-                $response = array("Usuario deletado com sucesso",1);
-            }else{
-                $response = "Erro ao executar a consulta: " ;
-            }
-            return $response;
+        $query = mysqli_query(
+            $this->conexao,
+            "DELETE FROM user WHERE id =  $id_user "
+        );
+        if ($query) {
+            $response = array("Usuario deletado com sucesso", 1);
+        } else {
+            $response = "Erro ao executar a consulta: ";
+        }
+        return $response;
     }
     public function updateuser(userModel $userModel)
     {
@@ -129,7 +129,28 @@ class UserDao
 
         return $response;
     }
+    public function showcity()
+    {
+        $objcon = new ConnectionBD();
+        $response = array();
 
+        $this->conexao = $objcon->getConnection();
+        $query = mysqli_query(
+            $this->conexao,
+            "SELECT  cidade  FROM user"
+        );
+
+        if ($query && mysqli_num_rows($query) > 0) {
+            while ($row = mysqli_fetch_assoc($query)) {
+                $response[] = $row;
+            }
+        } else {
+            $response = array("nehuma cidade no sistema");
+        }
+        mysqli_close($this->conexao);
+
+        return $response;
+    }
 
 
 
@@ -174,6 +195,29 @@ class UserDao
         return $response;
     }
 
+    public function searchcity(userModel $userModel)
+    {
+        $response = array();
+        $objcon = new ConnectionBD();
+        $cidade = $userModel->getcidade();
+
+        $this->conexao = $objcon->getConnection();
+        $query = mysqli_query(
+            $this->conexao,
+            "SELECT nome, cidade, estado FROM user WHERE cidade= '$cidade' "
+        );
+        if ($query && mysqli_num_rows($query) > 0) {
+            while ($row = mysqli_fetch_assoc($query)) {
+                $response[] = $row;
+            }
+        } else {
+            $response = array("erro ao filtrar usuarios",2);
+        }
+        mysqli_close($this->conexao);
+
+        return $response;
+
+    }
 
 
 }

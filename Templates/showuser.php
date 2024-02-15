@@ -1,16 +1,22 @@
 <?php
 require_once 'C:\xampp\htdocs\localconnect\src\Dao\userDAO.php';
+require_once 'C:\xampp\htdocs\localconnect\src\Controller\userController.php';
 
-session_start();
-if (empty($_SESSION['id'])) {
-    echo "";
-} else {
-    $UserDao = new UserDao();
-    $resposta = $UserDao->showusers();
-    var_dump($resposta);
-}
+$data = array(
+    "cidade" => filter_input(INPUT_POST, 'cidade'),
+);
 
 
+$UserDao = new UserDao();
+$resposta = $UserDao->showusers();
+$cidades = $UserDao->showcity();
+
+$objcontroller = new UserController();
+$cityfilters = $objcontroller->searchcity($data);
+
+
+var_dump($cityfilters);
+//precisar separar os arrays de valores filtrados e valores de controles
 ?>
 
 
@@ -43,6 +49,15 @@ if (empty($_SESSION['id'])) {
                             <th>Cidade</th>
                             <th>Estado</th>
                         </tr>
+                        <?php 
+                        if($cityfilters[1]===1){
+                           
+                                foreach ($cityfilters as $cityfilters) {
+                                    //echo "<tr><td>" . $cityfilters[0]["nome"] . "</td><td>" . $cityfilters[0]["cidade"] . "</td><td>" . $cityfilters[0]["estado"] . "</td></tr>";
+                                }
+                            }
+                        
+                        ?>
                         <?php
                         if (empty($resposta)) {
                             echo " <tr>  Sem usuarios cadastrados </tr>";
@@ -54,17 +69,29 @@ if (empty($_SESSION['id'])) {
                         ?>
                     </table>
                 </div>
+                <?php
+                $cidadesunicas = array();
+                ?>
                 <div>
-                    <form method="POST" action="../src/Controller/userController.php">
+                    <form method="POST" action="showuser.php">
                         <h2 for="">Filtrar por Cidade</h2><br>
                         <div>
 
-                            <select class="button" name="cidade" id="">
-                                <option value="">Quixada</option>
+                            <select class="button" name="cidade">
+                                <?php foreach ($cidades as $cidade): ?>
+                                    <?php
+                                    if (!in_array($cidade['cidade'], $cidadesunicas)) {
+                                        $cidadesunicas[] = $cidade['cidade'];
 
+                                        ?>
+                                        <option value="<?php echo $cidade['cidade']; ?>">
+                                            <?php echo $cidade['cidade']; ?>
+                                        </option>
+                                    <?php } ?>
+                                <?php endforeach; ?>
                             </select>
-                            <input style="display: none;" type="radio" value=5 name="formulario" checked>
-                            <input class="button" type="submit">
+                            
+                            <button class="button" type="submit">Fazer Consulta</button>
                         </div>
 
                     </form>
