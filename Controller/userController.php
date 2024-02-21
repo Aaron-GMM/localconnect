@@ -10,8 +10,8 @@ $data = array(
     "cidade" => filter_input(INPUT_POST, 'cidade'),
     "estado" => filter_input(INPUT_POST, 'estado'),
     "senha" => filter_input(INPUT_POST, 'senha'),
-    "formulario" => (int) $_POST['formulario'],
-    "id" => (int)$_POST['id']
+    "formulario" => (int) filter_input(INPUT_POST, 'formulario'),
+    "id" => (int) filter_input(INPUT_POST, 'id')
 );
 if (
     $data['name'] === false ||
@@ -85,7 +85,7 @@ class UserController
 
             if (!empty($errorMessages)) {
                 foreach ($errorMessages as $errorMessage) {
-                    echo  "<script>
+                    echo "<script>
                          window.alert('$errorMessage')
                          window.location.href = '../../Templates/register.html'
                       </script>";
@@ -139,7 +139,7 @@ class UserController
 
             if (!empty($errorMessages)) {
                 foreach ($errorMessages as $errorMessage) {
-                    echo  "<script>
+                    echo "<script>
                 window.alert('$errorMessage')
                 window.location.href = '../../Templates/login.html' ;
                    </script>";
@@ -183,11 +183,34 @@ class UserController
             }
         }
     }
-    public function deleteuser()
+    public function deleteuser($data)
     {
+
+        $response = "";
         $UserDao = new UserDao();
-        $UserDao->deleteuser();
-        return;
+        if (empty($data['id'])) {
+            $response = "Usuario não encontrado";
+        } else {
+            $userModel = new userModel();
+            $userModel->setId($data['id']);
+            $response = $UserDao->deleteuser($userModel);
+            if ($response[1] == 1) {
+
+                session_destroy();
+
+                echo "<script>
+                window.alert('$response[0]')
+                window.location.href = '../../Templates/perfil.php' ;
+             </script>";
+            } else {
+                echo "<script>
+                window.alert('$response[0]')
+                window.location.href = '../../Templates/perfil.php' ;
+             </script>";
+            }
+        }
+
+        return $response;
     }
     public function updateuser($data)
     {
@@ -222,11 +245,11 @@ class UserController
 
         if (!empty($errorMessages)) {
             foreach ($errorMessages as $errorMessage) {
-                echo  "<script>
+                echo "<script>
                 window.alert('$errorMessage')
                 window.location.href = '../../Templates/update.php' ;
                    </script>";
-                
+
             }
             return;
         }
@@ -248,7 +271,7 @@ class UserController
 
         if ($response[1] == 1) {
 
-           
+
             $resposta = $this->getweather($data['cidade']);
 
             $_SESSION['temp'] = $resposta['Temperatura'];
@@ -272,7 +295,7 @@ class UserController
         }
 
     }
-   
+
     public function getweather($data)
     {
 
@@ -305,12 +328,24 @@ class UserController
         return $res;
     }
 
+    public function searchcity($data)
+    {
+        $reponse = " ";
+        $UserDao = new UserDao();
+        $userModel = new userModel();
+
+        $userModel->setcidade($data['cidade']);
+
+        $reponse = array($UserDao->searchcity($userModel));
+        $_SESSION['con'] = true;
+        return $reponse;
+
+    }
 
 
 
 
-
-//validações 
+    //validações 
     private function validateName($data)
     {
         $nome = $data;
@@ -427,7 +462,10 @@ if (intval($data['formulario']) == 1) {
     $obj->updateuser($data);
 
 } else if ($data['formulario'] == 4) {
-    $obj->deleteuser();
+    $obj->deleteuser($data);
+
+} else if ($data['formulario'] == 5) {
+    $obj->searchcity($data);
 
 } else {
     $respom = "<script>

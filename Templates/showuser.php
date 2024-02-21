@@ -45,26 +45,18 @@ $resposta = $UserDao->showusers();
                             <th>Estado</th>
                         </tr>
                         <?php
-
-                        foreach ($resposta as $resposta) {
-                            echo "<tr><td>" . $resposta["nome"] . "</td><td>" . $resposta["cidade"] . "</td><td>" . $resposta["estado"] . "</td></tr>";
-                        }
+                    
+                            // Se não houver dados de filtro, exibe todos os usuários
+                            if (empty($resposta)) {
+                                echo "<tr><td colspan='3'>Sem usuários cadastrados</td></tr>";
+                            } else {
+                                foreach ($resposta as $userData) {
+                                    echo "<tr><td>" . $userData["nome"] . "</td><td>" . $userData["cidade"] . "</td><td>" . $userData["estado"] . "</td></tr>";
+                                }
+                            }
+                        
                         ?>
                     </table>
-                </div>
-                <div>
-                    <form method="POST" action="">
-                        <h2 for="">Filtrar por Cidade</h2><br>
-                        <div>
-
-                            <select class="button" name="cidade" id="">
-                                <option value="">Quixada</option>
-
-                            </select>
-                            <input class="button" type="submit">
-                        </div>
-
-                    </form>
                 </div>
                 <div>
                     <a class="button" href="../index.html">Voltar</a>
@@ -72,6 +64,7 @@ $resposta = $UserDao->showusers();
             </div>
         </div>
     </div>
+ 
 </body>
 
 </html>
