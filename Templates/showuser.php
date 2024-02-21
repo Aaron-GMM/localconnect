@@ -11,12 +11,8 @@ $UserDao = new UserDao();
 $resposta = $UserDao->showusers();
 $cidades = $UserDao->showcity();
 
-$objcontroller = new UserController();
-$cityfilters = $objcontroller->searchcity($data);
 
 
-var_dump($cityfilters);
-//precisar separar os arrays de valores filtrados e valores de controles
 ?>
 
 
@@ -49,52 +45,19 @@ var_dump($cityfilters);
                             <th>Cidade</th>
                             <th>Estado</th>
                         </tr>
-                        <?php 
-                        if($cityfilters[1]===1){
-                           
-                                foreach ($cityfilters as $cityfilters) {
-                                    //echo "<tr><td>" . $cityfilters[0]["nome"] . "</td><td>" . $cityfilters[0]["cidade"] . "</td><td>" . $cityfilters[0]["estado"] . "</td></tr>";
+                        <?php
+                    
+                            // Se não houver dados de filtro, exibe todos os usuários
+                            if (empty($resposta)) {
+                                echo "<tr><td colspan='3'>Sem usuários cadastrados</td></tr>";
+                            } else {
+                                foreach ($resposta as $userData) {
+                                    echo "<tr><td>" . $userData["nome"] . "</td><td>" . $userData["cidade"] . "</td><td>" . $userData["estado"] . "</td></tr>";
                                 }
                             }
                         
                         ?>
-                        <?php
-                        if (empty($resposta)) {
-                            echo " <tr>  Sem usuarios cadastrados </tr>";
-                        } else {
-                            foreach ($resposta as $resposta) {
-                                echo "<tr><td>" . $resposta["nome"] . "</td><td>" . $resposta["cidade"] . "</td><td>" . $resposta["estado"] . "</td></tr>";
-                            }
-                        }
-                        ?>
                     </table>
-                </div>
-                <?php
-                $cidadesunicas = array();
-                ?>
-                <div>
-                    <form method="POST" action="showuser.php">
-                        <h2 for="">Filtrar por Cidade</h2><br>
-                        <div>
-
-                            <select class="button" name="cidade">
-                                <?php foreach ($cidades as $cidade): ?>
-                                    <?php
-                                    if (!in_array($cidade['cidade'], $cidadesunicas)) {
-                                        $cidadesunicas[] = $cidade['cidade'];
-
-                                        ?>
-                                        <option value="<?php echo $cidade['cidade']; ?>">
-                                            <?php echo $cidade['cidade']; ?>
-                                        </option>
-                                    <?php } ?>
-                                <?php endforeach; ?>
-                            </select>
-                            
-                            <button class="button" type="submit">Fazer Consulta</button>
-                        </div>
-
-                    </form>
                 </div>
                 <div>
                     <a class="button" href="../index.html">Voltar</a>
@@ -102,6 +65,7 @@ var_dump($cityfilters);
             </div>
         </div>
     </div>
+ 
 </body>
 
 </html>
