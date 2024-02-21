@@ -34,7 +34,7 @@ if (empty($_SESSION['id'])) {
         <div>
           <h1>Atualizar suas <span> informações </span></h1>
         </div>
-        <form action="../src/Controller/userController.php" method="post">
+        <form action="../Controller/userController.php" method="post">
           <div class="formulario">
             <div>
               <label>Nome:</label>

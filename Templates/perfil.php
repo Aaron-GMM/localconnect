@@ -98,12 +98,20 @@ if (empty($_SESSION['id'])) {
             
 
           <?php } else { ?>
-            <a class="button" href="../Templates/update.php">Atualizar</a>
-            <a class="button" href="#">Excluir</a>
-            <a class="button" href="../index.html">Voltar</a>
-            <a type="submit" class="button" href="../Templates/exit.php">sair</a>
 
+            <div style=" display:flex; flex-wrap: wrap; gap: 5px;">
+              <a class="button" href="../Templates/update.php">Atualizar</a>
+              <form  method="POST" action="../Controller/userController.php">
+                <input type="checkbox" name="id" hidden="true" value='<?php echo $id ?>' checked>
+                <input type="checkbox" name="formulario" hidden="true" value="4" checked>
+                <button type="submit" class="button">Excluir</button>
+              </form>
+              <a class="button" href="../index.html">Voltar</a>
+              <a type="submit" class="button" href="../Templates/exit.php">sair</a>
+            </div>
           <?php } ?>
+
+          
 
         </div>
       </div>
