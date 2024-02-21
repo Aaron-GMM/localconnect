@@ -39,9 +39,10 @@
                             <p>Perfil</p>
                             <a class="button" href="./Templates/perfil.php" >Acessar</a >
                         </div>
+                    <!-- iniciar validaçãod e usuario -->
                         <div class="intem">
-                            <p>Procure Pessoas</p>
-                            <a  class="button" href="./Templates/showuser.php">Procurar</a >
+                            <p> Pessoas no Sistema</p>
+                            <a  class="button" href="./Templates/showuser.php">Entrar</a >
                         </div>
                     </div>
                 </div>
