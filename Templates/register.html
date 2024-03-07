@@ -10,6 +10,20 @@
 </head>
 
 <body>
+
+  <div class="popup-overlay" id="popupOverlay">
+    <div class="popup">
+      <h2>Prezado Usuario,</h2>
+      <p>Ao se cadastrar na <span>Localconncet</span> Gostaríamos de informar <br>
+        que os dados coletados por esta aplicação serão utilizados exclusivamente <br> para fins de estudo no ensino 
+        superior.<br> Comprometemo-nos a garantir a privacidade e segurança de seus dados <br> seguindo todas as leis e
+        regulamentações pertinentes à proteção de informações pessoais.</p>
+          <br><br>
+        <p>Atenciosamente Desenvolvedores da <span>Localconncet</span></p>
+      <button onclick="fecharPopup()">Fechar</button>
+    </div>
+  </div>
+
   <header class="menu">
     <h2> Local <span>Connect</span></h2>
 
@@ -45,17 +59,18 @@
               <label>Senha:</label>
               <input type="password" name="senha">
             </div>
-            <input style="display: none;" type="radio" value=1 name="formulario" checked >
+            <input style="display: none;" type="radio" value=1 name="formulario" checked>
             <div style="display: flex; flex-direction: row; gap: 10px;">
               <input class="button" type="submit" value="ENVIAR">
-              <a type="submit" class="button" href="../index.html">Voltar</a>
+              <a type="submit" class="button" href="../index.php">Voltar</a>
             </div>
-            
+
           </div>
         </form>
       </div>
     </div>
   </div>
+  <script src="../static/index.js"></script>
 </body>
 
 </html>
