@@ -8,11 +8,15 @@ if (empty($_SESSION['id'])) {
   $id = $_SESSION['id'];
   $userD = new UserDao();
   $response = $userD->searchbyid($id);
+  if (empty($response)) {
+    echo "";
+  }else{
   $nome = $response[0]['nome'];
   $prime = explode(' ', $nome, 2);
   $temperatura = $_SESSION['temp'];
   $condicao = $_SESSION['cond'];
   $umidade = $_SESSION['Umidade'];
+}
 }
 
 
@@ -25,6 +29,7 @@ if (empty($_SESSION['id'])) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Localconncet</title>
+  <link rel="stylesheet" href="../static/inde.css">
   <link rel="stylesheet" href="../static/inde.css">
 
 </head>
@@ -68,7 +73,7 @@ if (empty($_SESSION['id'])) {
 
       <div class="conte">
         <div>
-          <h1 >Bem vindo <span>
+          <h1>Bem vindo <span>
               <?php echo empty($prime[0]) ? "Não está conectado!" : $prime[0]; ?>
             </span></h1>
         </div>
@@ -95,7 +100,8 @@ if (empty($_SESSION['id'])) {
           <?php if (empty($_SESSION['id'])) { ?>
             <a type="submit" class="button" href="../Templates/register.html">Cadastre-se</a>
             <a type="submit" class="button" href="../Templates/login.html">Conete-se</a>
-            
+            <a class="button" href="../index.html">Voltar</a>
+
 
           <?php } else { ?>
 
