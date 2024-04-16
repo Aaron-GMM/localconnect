@@ -182,7 +182,7 @@ th {
     justify-content: center;
     align-items: center;
     width: 60%;
-    height: 500px;
+    height: 700px;
  
   }
  
@@ -216,16 +216,37 @@ th {
   th {
     background-color: #242434;
   }
+
+
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    
+  }
+  
+  th, td {
+    border: 4px solid #ba4265;
+    background-color: #242434;
+    text-align: left;
+    padding: 8px;
+    
+  }
+  
+  th {
+    background-color: #242434;
+  }
 }
 
 
-@media only screen and (max-width: 1200px) {
+
+@media only screen and (max-width: 1250px) {
  .card-perfil{
-    display: flex;
+     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
     width: 70%;
-    height: 500px;
+    height: 800px;
   }
   .cont {
     display: flex;
@@ -258,13 +279,16 @@ th {
     background-color: #242434;
   }
 }
+
+
+
 @media only screen and (max-width: 992px) {
  .card-perfil{
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
     width: 80%;
-    height: 800px;
+    height: 900px;
   }
   .cont {
     display: flex;
